@@ -81,10 +81,7 @@ class MyFormPage extends StatefulWidget {
 class _MyFormPageState extends State<MyFormPage> {
   final _formKey = GlobalKey<FormState>();
   String _namaLengkap = "";
-  bool jenjangSarjana = false;
-  bool jenjangDiploma = false;
-  bool jenjangMagister = false;
-  bool jenjangDoktor = false;
+  String jenjang = '';
   double umur = 0;
   String kelasPBP = 'A';
   List<String> listKelasPBP = ['A', 'B', 'C', 'D', 'E', 'F', 'KI'];
@@ -145,51 +142,43 @@ class _MyFormPageState extends State<MyFormPage> {
                         leading: Icon(Icons.school),
                         title: Text("Jenjang"),
                       ),
-                      CheckboxListTile(
+                      RadioListTile(
                         title: const Text('Sarjana'),
-                        value: jenjangSarjana,
-                        onChanged: (bool? value) {
+                        value: 'Sarjana',
+                        groupValue: jenjang,
+                        onChanged: (String? value) {
                           setState(() {
-                            jenjangSarjana = value!;
-                            if (value) {
-                              jenjangMagister = jenjangDiploma = jenjangDoktor = false;
-                            }
+                            jenjang = value!;
                           });
                         },
                       ),
-                      CheckboxListTile(
+                      RadioListTile(
                         title: const Text('Diploma'),
-                        value: jenjangDiploma,
-                        onChanged: (bool? value) {
+                        value: 'Diploma',
+                        groupValue: jenjang,
+                        onChanged: (String? value) {
                           setState(() {
-                            jenjangDiploma = value!;
-                            if (value) {
-                              jenjangMagister = jenjangSarjana = jenjangDoktor = false;
-                            }
+                            jenjang = value!;
                           });
                         },
                       ),
-                      CheckboxListTile(
+                      RadioListTile(
                         title: const Text('Magister'),
-                        value: jenjangMagister,
-                        onChanged: (bool? value) {
+                        value: 'Magister',
+                        groupValue: jenjang,
+                        onChanged: (String? value) {
                           setState(() {
-                            jenjangMagister = value!;
-                            if (value) {
-                              jenjangDiploma = jenjangSarjana = jenjangDoktor = false;
-                            }
+                            jenjang = value!;
                           });
                         },
                       ),
-                      CheckboxListTile(
+                      RadioListTile(
                         title: const Text('Doktor'),
-                        value: jenjangDoktor,
-                        onChanged: (bool? value) {
+                        value: 'Doktor',
+                        groupValue: jenjang,
+                        onChanged: (String? value) {
                           setState(() {
-                            jenjangDoktor = value!;
-                            if (value) {
-                              jenjangMagister = jenjangSarjana = jenjangDiploma = false;
-                            }
+                            jenjang = value!;
                           });
                         },
                       ),
@@ -263,13 +252,27 @@ class _MyFormPageState extends State<MyFormPage> {
                             ),
                             elevation: 15,
                             child: Container(
-                              padding: const EdgeInsets.only(top: 20, bottom: 20),
-                              child: ListView(
-                                shrinkWrap: true,
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  Center(child: const Text('Informasi Data')),
-                                  SizedBox(height: 20),
-                                  // TODO: Munculkan informasi yang didapat dari form
+                                  const Center(child: Text('Informasi Data')),
+                                  const SizedBox(height: 20),
+                                  ListTile(
+                                    title: Text("Nama Lengkap: $_namaLengkap"),
+                                  ),
+                                  ListTile(
+                                    title: Text("Jenjang: $jenjang"),
+                                  ),
+                                  ListTile(
+                                    title: Text("Umur: ${umur.round()}"),
+                                  ),
+                                  ListTile(
+                                    title: Text("Kelas PBP: $kelasPBP"),
+                                  ),
+                                  ListTile(
+                                    title: Text("Practice Mode: ${_nilaiSwitch ? 'Aktif' : 'Nonaktif'}"),
+                                  ),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
